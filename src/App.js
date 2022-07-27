@@ -27,8 +27,27 @@ export default function App() {
         : [...state.cart, { ...book, count: 1 }],
     });
 
+    const removeFromCart = id => setState({
+      ...state, 
+      cart: state.cart.filter(cartItem => cartItem.id !== id)
+    })
+
+    const increase = id => {
+      setState({
+        ...state,
+        cart: state.cart.map(cartItem => cartItem.id === id ? {...cartItem, count: cartItem.count +1 } : cartItem)
+      })
+    }
+
+    const decrease = id => {
+      setState({
+        ...state,
+        cart: state.cart.map(cartItem => cartItem.id === id ? {...cartItem, count: cartItem.count > 1 ? cartItem.count -1 : 1 } : cartItem)
+      })
+    }
+
   return (
-    <BooksContext.Provider value={{state: state, addToCart}}>
+    <BooksContext.Provider value={{state: state, addToCart, increase, decrease, removeFromCart}}>
       <div className="App">
         <h1>
           Alışveriş Sepeti Yapımı
